@@ -23,6 +23,9 @@ const Cart = () => {
     />
   ));
 
+  // Hello this is in feature branch
+  
+
   return (
     <div className="min-h-screen bg-slate-100 px-6 py-8 lg:px-12">
       <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-8 lg:flex-row lg:items-start">
