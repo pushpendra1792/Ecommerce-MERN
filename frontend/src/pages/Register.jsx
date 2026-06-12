@@ -9,7 +9,6 @@ const Register = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,

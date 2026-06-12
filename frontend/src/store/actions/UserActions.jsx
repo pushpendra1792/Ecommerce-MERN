@@ -76,27 +76,26 @@ export const asyncUpdateUser = (id, data) => async (dispatch) => {
 
 export const asyncAddToCart = (proId, userId) => async (dispatch) => {
   const { data } = await axios.get(`/users/${userId}`);
+  const productData = await axios.get(`/products/${proId}`)
   if (data.cart.length > 0) {
     const item = data.cart.find((data) => data.productId == proId);
 
     //If that item is already present, we just want to increase the quantity
     if (item) {
       item.quantity += 1;
+      item.price = productData.data.price;
       await dispatch(asyncUpdateUser(data.id, data));
-      await dispatch(asyncCurrentUser());
 
       // If there is data, but item is not present then i have to add another object
     } else {
-      data.cart.push({ productId: proId, quantity: 1 });
+      data.cart.push({ productId: proId, quantity: 1, price: productData.data.price });
       await dispatch(asyncUpdateUser(data.id, data));
-      await dispatch(asyncCurrentUser());
     }
   } 
   //If the cart is empty 
   else {
-    data.cart.push({ productId: proId, quantity: 1 });
+    data.cart.push({ productId: proId, quantity: 1, price: productData.data.price  });
     await dispatch(asyncUpdateUser(data.id, data));
-    await dispatch(asyncCurrentUser());
   }
 };
 

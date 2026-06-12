@@ -4,7 +4,18 @@ import CartCard from "../../components/CartCard";
 const Cart = () => {
   const user = useSelector((state) => state.usersReducers.users);
 
-  const renderCarts = user.cart.map((product) => (
+  console.log(user.cart);
+  const quantity = user?.cart?.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+  const total = user?.cart?.reduce(
+    (total, item) => total + item.quantity * item.price,
+    0,
+  );
+  console.log(quantity);
+  console.log(total);
+  const renderCarts = user?.cart?.map((product) => (
     <CartCard
       key={product.productId}
       productId={product.productId}
@@ -30,16 +41,18 @@ const Cart = () => {
 
         <aside className="lg:w-1/4">
           <div className="rounded-[30px] border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-6 text-xl font-semibold text-slate-900">Order Summary</h2>
+            <h2 className="mb-6 text-xl font-semibold text-slate-900">
+              Order Summary
+            </h2>
 
             <div className="space-y-4 text-sm text-slate-600">
               <div className="flex justify-between">
                 <span>Items</span>
-                <span>8</span>
+                <span>{quantity}</span>
               </div>
               <div className="flex justify-between">
                 <span>Sub Total</span>
-                <span>$708.00</span>
+                <span>${(total).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
@@ -51,13 +64,13 @@ const Cart = () => {
               </div>
               <div className="flex justify-between">
                 <span>Coupon Discount</span>
-                <span className="text-emerald-600">- $100.00</span>
+                <span className="text-emerald-600">- $0.00</span>
               </div>
             </div>
 
             <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-5 text-lg font-semibold text-slate-900">
               <span>Total</span>
-              <span>$633.00</span>
+              <span>${(total).toFixed(2)}</span>
             </div>
 
             <button className="mt-6 w-full rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">

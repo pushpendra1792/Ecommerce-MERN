@@ -6,12 +6,12 @@ import { toast } from "react-toastify";
 import { Outlet } from "react-router-dom";
 
 const SingleProduct = () => {
-  const { id } = useParams();
-  const isModalOpen = useMatch("/product/:id/update-product");
 
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  
+  const isModalOpen = useMatch("/product/:id/update-product");
   const products = useSelector((state) => state.productReducers.products);
   const user = JSON.parse(localStorage.getItem("user"));
   const product = products.find((item) => item.id === id);

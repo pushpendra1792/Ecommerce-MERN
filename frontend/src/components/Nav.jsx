@@ -10,7 +10,6 @@ import profile from "../assets/profile.png";
 import logout from "../assets/logout.png";
 
 const Nav = () => {
-  // const user = JSON.parse(localStorage.getItem("user"));
   const user = useSelector(state => state.usersReducers.users)
   const dispatch = useDispatch();
   const navigate = useNavigate();

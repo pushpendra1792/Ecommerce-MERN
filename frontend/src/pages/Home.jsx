@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import ProductCard from "../components/ProductCard";
 
 const Products = () => {
+  
   const product = useSelector((state) => state.productReducers.products);
 
   const renderProducts = product.map((product) => {

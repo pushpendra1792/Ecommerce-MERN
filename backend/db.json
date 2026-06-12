@@ -231,6 +231,14 @@
       "category": "groceries",
       "price": 2.49,
       "image": "https://cdn.dummyjson.com/product-images/groceries/kiwi/thumbnail.webp"
+    },
+    {
+      "title": "proo",
+      "price": "1",
+      "image": "asdf.com",
+      "category": "electronics",
+      "description": "fd",
+      "id": "fEnpv-znNe0"
     }
   ],
   "users": [
@@ -240,16 +248,7 @@
       "password": "12er",
       "id": "Vk8JIBpk_Zs",
       "isAdmin": false,
-      "cart": [
-        {
-          "productId": "12",
-          "quantity": 2
-        },
-        {
-          "productId": "21",
-          "quantity": 1
-        }
-      ]
+      "cart": []
     },
     {
       "username": "admin",
@@ -257,16 +256,7 @@
       "password": "admin",
       "id": "admin_id",
       "isAdmin": true,
-      "cart": [
-        {
-          "productId": "12",
-          "quantity": 2
-        },
-        {
-          "productId": "21",
-          "quantity": 1
-        }
-      ]
+      "cart": []
     },
     {
       "username": "test4",
@@ -274,7 +264,13 @@
       "password": "123",
       "id": "2TQGp1dwOyQ",
       "isAdmin": false,
-      "cart": []
+      "cart": [
+        {
+          "productId": "CKDjHKPrJbc",
+          "quantity": 6,
+          "price": "890"
+        }
+      ]
     },
     {
       "username": "loki",
@@ -282,16 +278,7 @@
       "password": "1234",
       "id": "MJ-_us2KAgk",
       "isAdmin": false,
-      "cart": [
-        {
-          "productId": "12",
-          "quantity": 2
-        },
-        {
-          "productId": "21",
-          "quantity": 1
-        }
-      ]
+      "cart": []
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

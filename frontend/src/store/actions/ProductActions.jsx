@@ -1,6 +1,8 @@
 import axios from "../../api/AxiosConfig";
 import { loadproduct } from "../reducers/ProductSlice";
 
+//
+
 export const asyncLoadProducts = () => async (dispatch) => {
   try {
     const { data } = await axios.get("/products");
