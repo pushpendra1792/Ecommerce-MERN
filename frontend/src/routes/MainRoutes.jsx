@@ -1,17 +1,19 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "../pages/Login";
-import Products from "../pages/Home";
-import Orders from "../pages/user/Orders";
-import Register from "../pages/Register";
-import CreateProduct from "../pages/admin/CreateProduct";
-import UpdateProduct from "../pages/admin/UpdateProduct";
-import SingleProduct from "../pages/SingleProduct";
-import Dashboard from "../pages/admin/Dashboard";
-import Profile from "../pages/Profile";
-import Cart from "../pages/user/Cart";
-import PageNotFound from "../pages/PageNotFound";
 import { useSelector } from "react-redux";
-import UpdateUser from "../pages/user/UpdateUser";
+import { lazy } from "react";
+
+const Login = lazy(()=>import("../pages/Login"));
+const SingleProduct = lazy(()=>import("../pages/SingleProduct"));
+const Products = lazy(()=>import("../pages/Home"));
+const Orders = lazy(()=>import("../pages/user/Orders"));
+const Register = lazy(()=>import("../pages/Register"));
+const CreateProduct = lazy(()=>import("../pages/admin/CreateProduct"));
+const UpdateProduct = lazy(()=>import("../pages/admin/UpdateProduct"));
+const Dashboard = lazy(()=>import("../pages/admin/Dashboard"));
+const Profile = lazy(()=>import("../pages/Profile"));
+const Cart = lazy(()=>import("../pages/user/Cart"));
+const PageNotFound = lazy(()=>import("../pages/PageNotFound"));
+const UpdateUser = lazy(()=>import("../pages/user/UpdateUser"));
 
 const MainRoute = () => {
   const user = useSelector((state) => state.usersReducers.users);
