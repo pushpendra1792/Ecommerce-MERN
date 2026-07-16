@@ -251,7 +251,7 @@
       "cart": []
     },
     {
-      "username": "admin",
+      "username": "admin12",
       "email": "admin@test.com",
       "password": "admin",
       "id": "admin_id",
@@ -284,6 +284,20 @@
       "id": "MJ-_us2KAgk",
       "isAdmin": false,
       "cart": []
+    },
+    {
+      "username": "test123",
+      "email": "test@poornima.edu.in",
+      "password": "123456",
+      "id": "OT0cnHdNdyg",
+      "isAdmin": false
+    },
+    {
+      "username": "12",
+      "email": "1@1.com",
+      "password": "1",
+      "id": "XTN2jqkF7Lg",
+      "isAdmin": false
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
