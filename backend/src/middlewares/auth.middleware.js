@@ -7,12 +7,12 @@ const checkToken = async (req, res, next) => {
         const { token } = req.cookies;
 
         if (!token) {
-            return res.status(401).json({ message: "Login first to get access" })
+            return res.status(401).json({ message: "Login first to get access" });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await userModel.findOne({ _id: decoded.id }).select('-password')
+        const user = await userModel.findOne({ _id: decoded.id }).select('-password');
 
         if (!user) {
             return res.status(401).json({
@@ -23,13 +23,13 @@ const checkToken = async (req, res, next) => {
         next();
 
     } catch (error) {
-        res.status(401).json({ message: "error" })
+        res.status(401).json({ message: "error" });
     }
 }
 
 const checkAdmin = async (req, res, next) => {
 
-    const user = await userModel.findOne({_id :req.user.id})
+    const user = await userModel.findOne({_id :req.user.id});
 
     if(!user.isAdmin){
         return res.status(401).json({
