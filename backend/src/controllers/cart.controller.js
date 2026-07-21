@@ -19,7 +19,7 @@ const addToCartController = async (req, res) => {
     const cart = await cartModel.findOne({ user: userId});
 
     if (!cart) {
-        const newPro = await cartModel.create({
+        const newCart = await cartModel.create({
             user: userId,
             items: [
                 {
@@ -30,20 +30,27 @@ const addToCartController = async (req, res) => {
         })
         return res.json({
             message: "Cart Created and Product added to cart",
-            newPro
+            newCart
         })
     }
+
+    const productAlreadyExists = cart.items.find((i) => i.product.toString() === productId);
     
-    await cartModel.updateOne({
-        items:[
-            {
-                quantity:quantity+=1
-            }
-        ]
-    })
+    if(productAlreadyExists){
+        productAlreadyExists.quantity += 1;
+        await cart.save();
+
+        return res.json({
+            message:"Product Quantity Updated",
+            cart
+        });
+    }
+    
+    cart.items.push({product:productId, quantity:1});
+    await cart.save();
 
     res.json({
-        message: "Quantity Updated...",
+        message: "Product added to cart successfully",
         cart
     })
 }
@@ -52,4 +59,4 @@ const removeFromCartController = async (req, res) => {
     const user = req.user;
 }
 
-module.exports = { cartData, addToCartController }
+module.exports = { cartData, addToCartController, removeFromCartController }
