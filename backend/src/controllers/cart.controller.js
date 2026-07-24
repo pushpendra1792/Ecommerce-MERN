@@ -1,11 +1,10 @@
 const cartModel = require('../models/cart.model');
 
-const cartData = async (req, res) => {
+const viewCartController = async (req, res) => {
 
     const cart = await cartModel.find({ user: req.user })
-        .populate('user')
+        .populate('user',"-password -email -isAdmin")
         .populate('items.product')
-        .populate('items.quantity');
 
     res.json({
         message: "cart Fetched",
@@ -56,7 +55,38 @@ const addToCartController = async (req, res) => {
 }
 
 const removeFromCartController = async (req, res) => {
-    const user = req.user;
+    const userId = req.user._id;
+    const productId = req.params.productId;
+    const cart = await cartModel.findOne({ user: userId});
+
+    if(!cart){
+        return json.message({
+            message:"You don't have a cart. Add items first."
+        })
+    }
+
+    const productAlreadyExists = cart.items.find((i) => i.product.toString() === productId);
+    if(productAlreadyExists){
+        if(productAlreadyExists.quantity>1){
+            productAlreadyExists.quantity -= 1;
+            await cart.save();
+            
+                    return res.json({
+                        message:"Product Quantity Decreased",
+                        cart
+                    });
+        }
+        productAlreadyExists.deleteOne();
+        await cart.save();
+        res.json({
+            message:"Product deleted from cart"
+        })
+    }
+
+    res.json({
+        message:"Product not found in cart.."
+    })  
+
 }
 
-module.exports = { cartData, addToCartController, removeFromCartController }
+module.exports = { viewCartController, addToCartController, removeFromCartController }
