@@ -28,7 +28,7 @@ const orderSchema = new mongoose.Schema({
 
     totalAmount:{
         type:Number,
-        required:true
+        // required:true
     },
 
     status:{
@@ -37,11 +37,11 @@ const orderSchema = new mongoose.Schema({
 
     shippingAddress:{
         type:String,
-        required:true
+        // required:true
     }
 
 });
 
-const orderModel = mongoose.Model('orders',orderSchema);
+const orderModel = mongoose.model('orders',orderSchema);
 
 module.exports = orderModel;
