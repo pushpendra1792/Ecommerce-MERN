@@ -24,16 +24,17 @@ const orderSchema = new mongoose.Schema({
 
     totalAmount:{
         type:Number,
-        // required:true
+        required:true
     },
 
     status:{
-        type:String
+        type:String,
+        default:"Pending"
     },
 
     shippingAddress:{
         type:String,
-        // required:true
+        required:true
     }
 
 });

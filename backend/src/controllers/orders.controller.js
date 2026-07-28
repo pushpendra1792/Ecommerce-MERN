@@ -46,9 +46,9 @@ const orderController = async (req, res) => {
     const userId = req.user._id;
     const data = await orderModel.findOne({ user: userId })
 
-    if(!data){
+    if (!data) {
         return res.json({
-            message:"No orders Placed..."
+            message: "No orders Placed..."
         })
     }
 
@@ -56,5 +56,33 @@ const orderController = async (req, res) => {
 
 }
 
+const allOrderController = async (req, res) => {
+    const data = await cartModel.find();
+    if (!data) {
+        return res.status(404).json({
+            message: "No Orders Palced...."
+        })
+    }
+    res.status(200).json({
+        data
+    })
+}
 
-module.exports = { orderProductController, orderCartController, orderController };
+const updateOrderController = async (req, res) => {
+    const  {status}  = req.body;
+    const orderId = req.params.id;
+
+        const order = await orderModel.findOneAndUpdate({_id:orderId},{status},{new:true});
+        
+        if(!order){
+            return res.json({
+                message:"Order Not found"
+            })
+        }
+        res.json({
+            message:"status Updated",
+            order
+        })
+}
+
+module.exports = { orderProductController, orderCartController, orderController, allOrderController, updateOrderController };

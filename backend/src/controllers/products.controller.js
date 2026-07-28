@@ -51,11 +51,11 @@ const updateProductController = async (req, res) => {
         const id = req.params.id;
         const updatedProduct = req.body;
 
-        await productModel.findOneAndUpdate({ id: id }, updatedProduct);
+        const data = await productModel.findOneAndUpdate({ id: id }, updatedProduct);
 
         res.json({
             message: "Product Updated Successfully",
-            updatedProduct
+            data
         })
 
     } catch (err) {
