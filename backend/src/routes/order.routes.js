@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { checkToken, checkAdmin } = require('../middlewares/auth.middleware');
-const { orderController, orderCartController } = require('../controllers/orders.controller');
+const { orderProductController, orderCartController, orderController } = require('../controllers/orders.controller');
 
-router.post('/single/:productId', checkToken, orderController);
+router.post('/single/:productId', checkToken, orderProductController);
 router.post('/order-cart', checkToken, orderCartController);
+router.get('/my-orders',checkToken,orderController);
 
 // Orders routes (quick)
 
