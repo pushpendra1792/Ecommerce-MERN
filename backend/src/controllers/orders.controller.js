@@ -25,7 +25,21 @@ const orderController = async (req, res) => {
 }
 
 const orderCartController = async (req, res) => {
-    
+    const userId = req.user._id;
+    const data = await cartModel.findOne({ user: userId })
+    const items = data.items;
+    const { shippingAddress, totalAmount} = req.body;
+
+    const order = await orderModel.create({
+        user: userId,
+        items: items,
+        totalAmount: totalAmount,
+        shippingAddress: shippingAddress
+    })
+
+    res.json({
+        order
+    })
 }
 
 module.exports = { orderController, orderCartController };
