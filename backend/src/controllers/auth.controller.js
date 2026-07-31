@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const { assignToken } = require('../utils/token')
+const {hashPassword, comparePassword} = require('../utils/password_hash')
 
 const registerController = async (req, res) => {
     try {
@@ -23,7 +24,7 @@ const registerController = async (req, res) => {
 
         const user = await userModel.create({
             username,
-            password: await bcrypt.hash(password, 10),
+            password: await hashPassword(password),
             email,
             isAdmin
         })
@@ -35,6 +36,7 @@ const registerController = async (req, res) => {
         res.status(201).json({
             message: "User registered successfully"
         })
+
     } catch (error) {
         console.log(error);
     }
@@ -51,7 +53,7 @@ const loginController = async (req, res) => {
             message: "User not found"
         })
     }
-    const isPasswordCorrect = await bcrypt.compare(password,user.password);
+    const isPasswordCorrect = await comparePassword(password,user.password);
 
     if (!isPasswordCorrect) {
         return res.status(401).json({
