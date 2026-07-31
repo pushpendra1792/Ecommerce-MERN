@@ -8,13 +8,16 @@ const { assignToken } = require('../utils/token')
 const registerController = async (req, res) => {
     try {
         const { username, password, email, isAdmin } = req.body;
-        const usernameAlreadyTaken = await userModel.findOne({
-            username
+        const usernameOrEmailAlreadyTaken = await userModel.findOne({
+            $or : [
+                {username},
+                {email}
+            ]
         })
 
-        if (usernameAlreadyTaken) {
+        if (usernameOrEmailAlreadyTaken) {
             return res.status(401).json({
-                message: "Username Already taken"
+                message: "Username or Email is Already taken"
             })
         }
 

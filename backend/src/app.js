@@ -11,9 +11,9 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/auth',authRoutes);
-app.use('/product',productRoutes);
-app.use('/cart',cartRoutes);
-app.use('/order',orderRoutes);
+app.use('/auth', authRoutes);
+app.use('/product', productRoutes);
+app.use('/cart', cartRoutes);
+app.use('/order', orderRoutes);
 
 module.exports = app;
