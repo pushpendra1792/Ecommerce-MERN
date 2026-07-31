@@ -9,11 +9,5 @@ router.get('/my-orders', checkToken, orderController);
 router.get('/orders/all', checkToken, checkAdmin, allOrderController);
 router.put('/update-order/:id', checkToken, checkAdmin, updateOrderController);
 
-// Orders routes (quick)
-
-
-// GET /orders/my — user's own orders
-// GET /orders/all — admin sees all orders
-// PUT /orders/:id — admin updates order status
 
 module.exports = router;
