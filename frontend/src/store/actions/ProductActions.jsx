@@ -5,8 +5,9 @@ import { loadproduct } from "../reducers/ProductSlice";
 
 export const asyncLoadProducts = () => async (dispatch) => {
   try {
-    const { data } = await axios.get("/products");
-    dispatch(loadproduct(data));
+    const { data } = await axios.get("/product/products");
+    console.log(data);
+    dispatch(loadproduct(data.data));
   } catch (error) {
     console.log(error);
   }

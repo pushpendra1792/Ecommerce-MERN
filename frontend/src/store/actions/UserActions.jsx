@@ -44,7 +44,7 @@ export const asyncLoginUser = (user) => async (dispatch) => {
 
 export const asyncRegisterUser = (user) => async () => {
   try {
-    await axios.post("/users", user);
+    await axios.post("/auth/register", user);
     toast.success("User Registered Successfully");
   } catch (error) {
     toast.error(error.response?.data?.message || "Registration failed");
