@@ -15,6 +15,6 @@ router.get('/user', checkToken, (req,res)=>{
         message:"User fetched Successfully",
         user:req.user
     })
-})
+})  
 
 module.exports = router;

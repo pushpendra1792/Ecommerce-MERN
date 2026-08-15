@@ -4,131 +4,87 @@ import { toast } from "react-toastify";
 
 export const asyncDeleteUser = () => async (dispatch) => {
   try {
-    const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user.id);
-    await axios.delete(`/users/${user.id}`);
+    await axios.delete("/auth/logout");
     await dispatch(asyncLogoutUser());
     toast.success("Profile Deleted !!");
-  } catch (error) {
-    console.log(error);
+  } catch {
+    toast.error("Deletion Failed !");
   }
 };
 
 export const asyncCurrentUser = () => async (dispatch) => {
   try {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      dispatch(loaduser(user));
-    } else {
-      console.log("User not logged in!");
-    }
-  } catch (error) {
-    console.log(error);
+    const { data } = await axios.get("/auth/user");
+    dispatch(loaduser(data));
+  } catch {
+    console.log("Not Logged In !");
   }
 };
 
 export const asyncLogoutUser = () => async (dispatch) => {
   try {
-    localStorage.removeItem("user");
+    await axios.post('/auth/logout');
     dispatch(removeuser());
-  } catch (error) {
-    console.log(error);
+  } catch {
+    toast.success("Logged out !");
   }
 };
 
 export const asyncLoginUser = (user) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`/users?email=${user.email}`);
-    if (data.length > 0) {
-      if (data[0].password === user.password) {
-        const toStore = JSON.stringify(data[0]);
-        localStorage.setItem("user", toStore);
-        dispatch(asyncCurrentUser());
-        return true;
-      }
-      return false;
-    }
-  } catch (error) {
-    console.log(error);
+    const { data } = await axios.post("/auth/login",user);
+    dispatch(loaduser(data.user));
+    toast.success("Logged In !");
+    return true;
+  } catch {
+    toast.error("Invalid Credentials");
+    return false;
   }
 };
 
 export const asyncRegisterUser = (user) => async () => {
   try {
     await axios.post("/users", user);
+    toast.success("User Registered Successfully");
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Registration failed");
+  }
+};
+
+export const asyncUpdateUser = (data) => async (dispatch) => {
+  try {
+    await axios.patch("/auth/update", data);
+    await dispatch(asyncCurrentUser());
+    toast.success("Profile Updated !");
+  } catch {
+    toast.error("Update failed !");
+  }
+};
+
+export const asyncAddToCart = (productId, quantity=1) => async (dispatch) => {
+  try {
+    await axios.post("/cart/add", { productId, quantity });
+    dispatch(asyncCurrentUser());
+    toast.success("Added to cart!");
+  } catch {
+    toast.error("Failed to add to cart");
+  }
+};
+
+export const asyncRemoveFromCart = (productId) => async (dispatch) => {
+  try {
+    await axios.post(`/cart/remove/${productId}`);
+    dispatch(asyncCurrentUser());
   } catch (error) {
     console.log(error);
   }
 };
 
-export const asyncUpdateUser = (id, data) => async (dispatch) => {
-  try {
-    await axios.patch(`/users/${id}`, data);
-    const d = await axios.get(`/users/${id}`);
-    const toStore = JSON.stringify(d.data);
-    await localStorage.setItem("user", toStore);
-    await dispatch(asyncCurrentUser());
+export const asyncDeleteProductFromCart = (productId) => async (dispatch) => {
+    try {
+    await axios.delete(`/cart/delete/${productId}`);
+    dispatch(asyncCurrentUser());
   } catch (error) {
     console.log(error);
   }
-};
-
-export const asyncAddToCart = (proId, userId) => async (dispatch) => {
-  const { data } = await axios.get(`/users/${userId}`);
-  const productData = await axios.get(`/products/${proId}`)
-  if (data.cart.length > 0) {
-    const item = data.cart.find((data) => data.productId == proId);
-
-    //If that item is already present, we just want to increase the quantity
-    if (item) {
-      item.quantity += 1;
-      item.price = productData.data.price;
-      await dispatch(asyncUpdateUser(data.id, data));
-
-      // If there is data, but item is not present then i have to add another object
-    } else {
-      data.cart.push({ productId: proId, quantity: 1, price: productData.data.price });
-      await dispatch(asyncUpdateUser(data.id, data));
-    }
-  } 
-  //If the cart is empty 
-  else {
-    data.cart.push({ productId: proId, quantity: 1, price: productData.data.price  });
-    await dispatch(asyncUpdateUser(data.id, data));
-  }
-};
-
-export const asyncRemoveFromCart = (proId, userId) => async (dispatch) => {
-  const { data } = await axios.get(`/users/${userId}`);
-  if (data.cart.length > 0) {
-    const item = data.cart.find((data) => data.productId == proId);
-    
-    //If that item is already present, we just want to decrease the quantity
-    if (item) {
-      item.quantity -= 1;
-      await dispatch(asyncUpdateUser(data.id, data));
-      await dispatch(asyncCurrentUser());
-      
-      // If there is data, but item is not present then i have to add another object
-    } 
-  } 
-  //If the cart is empty 
-  else {
-    return alert("No Product To remove");
-  }
-};
-
-export const asyncDeleteProductFromCart = (proId,userId) => async  (dispatch) =>{
-  try {
-    const { data } = await axios.get(`/users/${userId}`);
-    const idx = data.cart.findIndex((data) => data.productId == proId);
-    data.cart.splice(idx,1);
-    console.log(data)
-    await dispatch(asyncUpdateUser(data.id, data));
-    await dispatch(asyncCurrentUser());
-  } catch (error) {
-    console.log(error)
-  }
-
-}
+  };
