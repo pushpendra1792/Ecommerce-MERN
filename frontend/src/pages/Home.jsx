@@ -1,23 +1,24 @@
-import { useSelector } from "react-redux";
-import axios from "../api/AxiosConfig";
+import { useDispatch, useSelector } from "react-redux";
+// import axios from "../api/AxiosConfig";
 import ProductCard from "../components/ProductCard";
 import { useEffect } from "react";
+import { asyncLoadProducts } from "../store/actions/ProductActions";
 
 const Products = () => {
-  const product = useSelector((state) => state.productReducers.products);
-
-
-  const fetchData = async () =>{
-    const {data} = await axios.get("/products?_page=1&_per_page=5");
+  const dispatch = useDispatch();
+  
+  const fetchData = async () => {
+    // const { data } = await axios.get("/product/products?_page=1&_per_page=5");
+    await dispatch(asyncLoadProducts());
     console.log(data.data);
-  }
-
+  };
+  const data  = useSelector((state) => state.productReducers.products);
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const renderProducts = product.map((product) => {
+  const renderProducts = data.map((product) => {
     return <ProductCard product={product} key={product.id} />;
   });
 
