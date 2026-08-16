@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 const UpdateUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.usersReducers.users);
+  const user = useSelector((state) => state.usersReducers.users.user);
   const {
     register,
     handleSubmit,
@@ -22,8 +22,8 @@ const UpdateUser = () => {
 
   
   const updateHandler = async (data) => {
-    await dispatch(asyncUpdateUser(user.id, data));
-    toast.success("Profile Updated !!");
+    await dispatch(asyncUpdateUser(data));
+    toast.success("Profile Updated !");
     navigate("/profile");
   };
 

@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-// import axios from "../api/AxiosConfig";
 import ProductCard from "../components/ProductCard";
 import { useEffect } from "react";
 import { asyncLoadProducts } from "../store/actions/ProductActions";
@@ -8,14 +7,13 @@ const Products = () => {
   const dispatch = useDispatch();
   
   const fetchData = async () => {
-    // const { data } = await axios.get("/product/products?_page=1&_per_page=5");
     await dispatch(asyncLoadProducts());
-    console.log(data.data);
   };
   const data  = useSelector((state) => state.productReducers.products);
 
   useEffect(() => {
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderProducts = data.map((product) => {

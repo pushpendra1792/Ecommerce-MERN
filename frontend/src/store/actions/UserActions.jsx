@@ -37,7 +37,7 @@ export const asyncLoginUser = (user) => async (dispatch) => {
     toast.success("Logged In !");
     return true;
   } catch {
-    toast.error("Invalid Credentials");
+    console.log("Invalid Credentials");
     return false;
   }
 };
@@ -53,9 +53,8 @@ export const asyncRegisterUser = (user) => async () => {
 
 export const asyncUpdateUser = (data) => async (dispatch) => {
   try {
-    await axios.patch("/auth/update", data);
+    await axios.patch("/auth/update-user", data);
     await dispatch(asyncCurrentUser());
-    toast.success("Profile Updated !");
   } catch {
     toast.error("Update failed !");
   }
