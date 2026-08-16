@@ -7,7 +7,8 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const user = useSelector((state) => state.usersReducers.users);
+  const user = useSelector((state) => state.usersReducers.users.user);
+  console.log(user);
 
   const deleteProfileHandler = () => {
     dispatch(asyncDeleteUser());

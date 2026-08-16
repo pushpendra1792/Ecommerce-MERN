@@ -4,15 +4,15 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const { assignToken } = require('../utils/token')
-const {hashPassword, comparePassword} = require('../utils/password_hash')
+const { hashPassword, comparePassword } = require('../utils/password_hash')
 
 const registerController = async (req, res) => {
     try {
         const { username, password, email, isAdmin } = req.body;
         const usernameOrEmailAlreadyTaken = await userModel.findOne({
-            $or : [
-                {username},
-                {email}
+            $or: [
+                { username },
+                { email }
             ]
         })
 
@@ -53,7 +53,7 @@ const loginController = async (req, res) => {
             message: "User not found"
         })
     }
-    const isPasswordCorrect = await comparePassword(password,user.password);
+    const isPasswordCorrect = await comparePassword(password, user.password);
 
     if (!isPasswordCorrect) {
         return res.status(401).json({
@@ -81,4 +81,28 @@ const logoutController = async (req, res) => {
     }
 }
 
-module.exports = { loginController, registerController, logoutController }
+const updateUserController = async (req, res) => {
+    const user = req.user;
+    const data = req.body;
+    try {
+        const dbUser = await userModel.findOne({email:user.email});
+        const isPasswordCorrect = comparePassword(data.password,dbUser.password);
+        if(isPasswordCorrect){
+            await userModel.findOneAndUpdate({ _id: user._id }, data);
+            return res.json({
+                message:"User Updated Successfully",
+                data,
+                dbUser
+
+            })
+        }else{
+            return res.json({
+                message:"Password Incorrect"
+            })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports = { loginController, registerController, logoutController, updateUserController }
