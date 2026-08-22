@@ -13,5 +13,5 @@ createRoot(document.getElementById("root")).render(
       <App />
     </BrowserRouter>
     <ToastContainer position="top-center"/>
-  </Provider>,
+  </Provider>
 );
