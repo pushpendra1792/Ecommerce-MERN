@@ -1,25 +1,41 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    username: {
+    firstName: {
         type: String
     },
+
+    lastName: {
+        type: String
+    },
+
+    mobileNumber: {
+        type: String
+    },
+
+    profilePhoto: {
+        type: String,
+        default: ""
+    },
+
     password: {
         type: String,
         required: true
     },
+
     email: {
-        type: String
+        type: String,
+        require:true,
+        lowercase:true,
+        trim:true
     },
-    isAdmin: {
-        type: Boolean
+
+    isSeller: {
+        type: Boolean,
+        default:false
     }
 })
 
-userSchema.index(
-    { username: 1 },
-    { unique: true }
-)
 userSchema.index(
     { email: 1 },
     { unique: true }
