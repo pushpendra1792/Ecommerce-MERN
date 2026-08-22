@@ -18,6 +18,7 @@ const Login = () => {
   const loginHandler = async (user) => {
     const isLoggedIn = await dispatch(asyncLoginUser(user));
     if (isLoggedIn) {
+    toast.success("Logged In !");
       navigate("/");
     } else {
       toast.error("Invalid email or password.");
