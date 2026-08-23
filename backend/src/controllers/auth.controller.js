@@ -26,7 +26,7 @@ const registerController = async (req, res) => {
             username,
             password: await hashPassword(password),
             email,
-            isAdmin
+            isSeller: isAdmin
         })
 
         const token = assignToken(user);
@@ -93,10 +93,9 @@ const updateUserController = async (req, res) => {
                 message:"User Updated Successfully",
                 data,
                 dbUser
-
             })
         }else{
-            return res.json({
+            return res.status(401).json({
                 message:"Password Incorrect"
             })
         }
@@ -105,4 +104,20 @@ const updateUserController = async (req, res) => {
     }
 }
 
-module.exports = { loginController, registerController, logoutController, updateUserController }
+const deleteUserController = async (req,res) => {
+    const user = req.user;
+    try{
+        const isUserDeleted = await userModel.findOneAndDelete({email:user.email});
+        if(isUserDeleted){
+            return res.json("User deleted Successfully");
+        }else{
+            return res.json({
+                message:"User Not Deleted"
+            })
+        }
+    }catch(error){
+        console.log(error)
+    }
+}
+
+module.exports = { loginController, registerController, logoutController, updateUserController, deleteUserController }

@@ -32,10 +32,13 @@ export const asyncLogoutUser = () => async (dispatch) => {
 
 export const asyncLoginUser = (user) => async (dispatch) => {
   try {
-    const { data } = await axios.post("/auth/login",user);
-    dispatch(loaduser(data.user));
-    toast.success("Logged In !");
-    return true;
+    const isUser = await axios.post("/auth/login",user);
+    if(isUser){
+      dispatch(loaduser(user));
+      return true;
+    }else{
+      return false;
+    }
   } catch {
     console.log("Invalid Credentials");
     return false;
