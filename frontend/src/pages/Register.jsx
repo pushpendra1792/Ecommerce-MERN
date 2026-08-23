@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { nanoid } from "nanoid";
 import { asyncRegisterUser } from "../store/actions/UserActions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +15,6 @@ const Register = () => {
   } = useForm();
 
   const registerHandler = async (user) => {
-    user.id = nanoid();
     user.isAdmin = false;
 
     await dispatch(asyncRegisterUser(user));
@@ -30,14 +28,6 @@ const Register = () => {
         onSubmit={handleSubmit(registerHandler)}
         className="w-[40%] h-[40%] flex flex-col border-2 py-5 px-5 pt-8"
       >
-        <input
-          className="w-full outline-0 border-b py-1 px-2"
-          type="text"
-          placeholder="Username"
-          {...register("username", { required: "Username Cannot be empty" })}
-        />
-        <small className="mb-7 text-red-400">{errors?.username?.message}</small>
-
         <input
           className="w-full outline-0 border-b py-1 px-2"
           type="email"

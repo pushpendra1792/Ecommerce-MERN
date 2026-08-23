@@ -21,7 +21,7 @@ const Profile = () => {
 
   return (
     <div className="px-10 py-2">
-      <h1 className="text-5xl mb-5">{user.username}</h1>
+      <h1 className="text-5xl mb-5">{user.firstName}</h1>
       <h3 className=" text-2xl mb-5">{user.email}</h3>
       <hr />
       <div className="flex">
