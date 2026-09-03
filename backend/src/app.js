@@ -6,7 +6,6 @@ const productRoutes = require('./routes/product.routes');
 const cartRoutes = require('./routes/cart.routes');
 const orderRoutes = require('./routes/order.routes');
 const healthRoutes = require('./routes/health.routes');
-require('dotenv').config();
 
 const app = express();
 
